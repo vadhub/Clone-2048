@@ -3,6 +3,7 @@ package com.abg.clone_2048;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,6 +43,7 @@ public class MainGame {
     public long highScore = 0;
     public long lastScore = 0;
     private long bufferScore = 0;
+    private boolean restart = false;
 
     public MainGame(Context context, MainView view) {
         mContext = context;
@@ -50,6 +52,7 @@ public class MainGame {
     }
 
     public void newGame() {
+        restart = false;
         if (grid == null)
             grid = new Grid(rows, rows);
         else {
@@ -330,5 +333,15 @@ public class MainGame {
 
     public boolean canContinue() {
         return !(gameState == GAME_ENDLESS || gameState == GAME_ENDLESS_WON);
+    }
+
+    public boolean isRestart() {
+        return restart;
+    }
+
+    public void setRestart(boolean restart) {
+        Log.d("ok", "restart");
+        this.restart = restart;
+        mView.invalidate();
     }
 }

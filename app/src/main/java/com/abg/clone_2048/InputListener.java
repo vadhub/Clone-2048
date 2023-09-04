@@ -2,7 +2,6 @@ package com.abg.clone_2048;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -114,14 +113,15 @@ class InputListener implements View.OnTouchListener {
                 if (!hasMoved) {
                     if (iconPressed(mView.sXNewGame, mView.sYIcons)) {
                         if (!mView.game.gameLost()) { // game no end
-                            new AlertDialog.Builder(mView.getContext())
-                                    .setPositiveButton(R.string.reset, (dialog, which) -> {
-                                        mView.game.newGame();
-                                        mView.game.canUndo = false;
-                                    })
-                                    .setNegativeButton(R.string.continue_game, null)
-                                    .setMessage(R.string.reset_dialog_message)
-                                    .show();
+//                            new AlertDialog.Builder(mView.getContext())
+//                                    .setPositiveButton(R.string.reset, (dialog, which) -> {
+//                                        mView.game.newGame();
+//                                        mView.game.canUndo = false;
+//                                    })
+//                                    .setNegativeButton(R.string.continue_game, null)
+//                                    .setMessage(R.string.reset_dialog_message)
+//                                    .show();
+                            mView.game.setRestart(true);
                         } else {
                             mView.game.newGame();
                             mView.game.canUndo = false;

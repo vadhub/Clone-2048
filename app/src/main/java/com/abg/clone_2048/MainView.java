@@ -60,6 +60,7 @@ public class MainView extends View {
     private BitmapDrawable loseGameOverlay;
     private BitmapDrawable winGameContinueOverlay;
     private BitmapDrawable winGameFinalOverlay;
+    private BitmapDrawable restartOverlay;
     //Text variables
     private int sYAll;
     private int titleStartYAll;
@@ -104,22 +105,27 @@ public class MainView extends View {
         drawScoreText(canvas);
         drawCells(canvas);
 
-        // checking game over here
-        if (!game.isActive()) {
-            drawEndGameState(canvas);
+        if (game.isRestart()) {
+            Log.d("ok", "tt");
+            drawRestartGameState(canvas);
+        } else {
+            // checking game over here
+            if (!game.isActive()) {
+                drawEndGameState(canvas);
 
-            if (!game.aGrid.isAnimationActive())
-                drawGameOverButtons(canvas);
-        }
+                if (!game.aGrid.isAnimationActive())
+                    drawGameOverButtons(canvas);
+            }
 
-        //Refresh the screen if there is still an animation running
-        if (game.aGrid.isAnimationActive()) {
-            invalidate(startingX, startingY, endingX, endingY);
-            tick();
-            //Refresh one last time on game end.
-        } else if (!game.isActive() && refreshLastTime) {
-            invalidate();
-            refreshLastTime = false;
+            //Refresh the screen if there is still an animation running
+            if (game.aGrid.isAnimationActive()) {
+                invalidate(startingX, startingY, endingX, endingY);
+                tick();
+                //Refresh one last time on game end.
+            } else if (!game.isActive() && refreshLastTime) {
+                invalidate();
+                refreshLastTime = false;
+            }
         }
     }
 
@@ -357,12 +363,20 @@ public class MainView extends View {
         }
     }
 
+    private void drawRestartGameState(Canvas canvas) {
+        if (restartOverlay != null) {
+            restartOverlay.setBounds(startingX, startingY, endingX, endingY);
+            restartOverlay.setAlpha((int) (255));
+            restartOverlay.draw(canvas);
+        }
+    }
+
     private void drawGameOverButtons(Canvas canvas) {
         drawNewGameButton(canvas, true);
         drawUndoButton(canvas, true);
     }
 
-    private void createEndGameStates(Canvas canvas, boolean win, boolean showButton) {
+    private void createEndGameStates(Canvas canvas, boolean win) {
         int width = endingX - startingX;
         int length = endingY - startingY;
         int middleX = width / 2;
@@ -389,6 +403,23 @@ public class MainView extends View {
             paint.setTextAlign(Paint.Align.CENTER);
             canvas.drawText(getResources().getString(R.string.game_over), middleX, middleY - centerText(), paint);
         }
+    }
+
+
+    private void createRestartOverlay(Canvas canvas) {
+        int width = endingX - startingX;
+        int length = endingY - startingY;
+        int middleX = width / 2;
+        int middleY = length / 2;
+
+        fadeRectangle.setAlpha(127);
+        drawDrawable(canvas, fadeRectangle, 0, 0, width, length);
+        fadeRectangle.setAlpha(255);
+        paint.setColor(getResources().getColor(R.color.text_black));
+        paint.setAlpha(255);
+        paint.setTextSize(gameOverTextSize);
+        paint.setTextAlign(Paint.Align.CENTER);
+        canvas.drawText(getResources().getString(R.string.reset_dialog_message), middleX, middleY - centerText(), paint);
     }
 
     private void createBackgroundBitmap(int width, int height) {
@@ -444,16 +475,23 @@ public class MainView extends View {
         //Initialize overlays
         Bitmap bitmap = Bitmap.createBitmap(endingX - startingX, endingY - startingY, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        createEndGameStates(canvas, true, true);
+        createEndGameStates(canvas, true);
         winGameContinueOverlay = new BitmapDrawable(resources, bitmap);
+
         bitmap = Bitmap.createBitmap(endingX - startingX, endingY - startingY, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bitmap);
-        createEndGameStates(canvas, true, false);
+        createEndGameStates(canvas, true);
         winGameFinalOverlay = new BitmapDrawable(resources, bitmap);
+
         bitmap = Bitmap.createBitmap(endingX - startingX, endingY - startingY, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bitmap);
-        createEndGameStates(canvas, false, false);
+        createEndGameStates(canvas, false);
         loseGameOverlay = new BitmapDrawable(resources, bitmap);
+
+        bitmap = Bitmap.createBitmap(endingX - startingX, endingY - startingY, Bitmap.Config.ARGB_8888);
+        canvas = new Canvas(bitmap);
+        createRestartOverlay(canvas);
+        restartOverlay = new BitmapDrawable(resources, bitmap);
     }
 
     private void tick() {
