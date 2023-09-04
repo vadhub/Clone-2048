@@ -3,10 +3,8 @@ package com.abg.clone_2048;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 class InputListener implements View.OnTouchListener {
     private static final int SWIPE_MIN_DISTANCE = 0;
@@ -115,17 +113,20 @@ class InputListener implements View.OnTouchListener {
                 //"Menu" inputs
                 if (!hasMoved) {
                     if (iconPressed(mView.sXNewGame, mView.sYIcons)) {
-                        new AlertDialog.Builder(mView.getContext())
-                                .setPositiveButton(R.string.reset, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
+                        if (!mView.game.gameLost()) { // game no end
+                            new AlertDialog.Builder(mView.getContext())
+                                    .setPositiveButton(R.string.reset, (dialog, which) -> {
                                         mView.game.newGame();
                                         mView.game.canUndo = false;
-                                    }
-                                })
-                                .setNegativeButton(R.string.continue_game, null)
-                                .setMessage(R.string.reset_dialog_message)
-                                .show();
+                                    })
+                                    .setNegativeButton(R.string.continue_game, null)
+                                    .setMessage(R.string.reset_dialog_message)
+                                    .show();
+                        } else {
+                            mView.game.newGame();
+                            mView.game.canUndo = false;
+                        }
+
                     } else if (iconPressed(mView.sXUndo, mView.sYIcons)) {
                         mView.game.revertUndoState();
                     } else if (isTap(2) && inRange(mView.startingX, x, mView.endingX)
