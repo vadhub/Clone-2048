@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Clone-2048</string>
+    <string name="high_score">РЕКОРД</string>
+    <string name="score">ОЧКИ</string>
+    <string name="you_win">Вы выйграли!</string>
+    <string name="game_over">Конец игры!</string>
+    <string name="reset">Да</string>
+    <string name="continue_game">Нет</string>
+    <string name="reset_dialog_message">Начать заново?</string>
+</resources>
