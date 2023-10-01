@@ -7,11 +7,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MenuFragment extends Fragment {
 
@@ -44,33 +47,36 @@ public class MenuFragment extends Fragment {
 
         ImageButton play = view.findViewById(R.id.playButton);
 
+        AtomicInteger rows = new AtomicInteger(4);
+
         View.OnClickListener clickListener = v -> {
 
-            int rows = 4;
-
             if (v.getId() == R.id.imageViewFour) {
-                rows = 4;
+                rows.set(4);
                 filter4.setVisibility(View.GONE);
                 filter6.setVisibility(View.VISIBLE);
                 filter8.setVisibility(View.VISIBLE);
             }
 
             if (v.getId() == R.id.imageViewSix) {
-                rows = 6;
+                rows.set(6);
                 filter4.setVisibility(View.VISIBLE);
                 filter6.setVisibility(View.GONE);
                 filter8.setVisibility(View.VISIBLE);
             }
 
             if (v.getId() == R.id.imageViewEight) {
-                rows = 8;
+                rows.set(8);
                 filter4.setVisibility(View.VISIBLE);
                 filter6.setVisibility(View.VISIBLE);
                 filter8.setVisibility(View.GONE);
             }
 
+            Log.d("rows", rows.get()+"");
+
             if (v.getId() == R.id.playButton) {
-                navigator.startFragment(new GameFragment(), rows);
+                Log.d("rows", rows.get()+"");
+                navigator.startFragment(new GameFragment(), rows.get());
             }
         };
 
