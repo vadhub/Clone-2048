@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Clone-2048</string>
+    <string name="app_name">2048</string>
     <string name="header" translatable="false">2048</string>
     <string name="high_score">HIGH SCORE</string>
     <string name="score">SCORE</string>
@@ -10,5 +10,4 @@
     <string name="reset">Yes</string>
     <string name="continue_game">No</string>
     <string name="reset_dialog_message">Start again?</string>
-
 </resources>
