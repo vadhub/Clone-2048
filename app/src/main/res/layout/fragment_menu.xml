@@ -1,10 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorBackground"
     tools:context=".MenuFragment">
 
+    <ImageView
+        android:id="@+id/imageViewFour"
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:src="@drawable/four"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewEight"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewSix"
+        app:layout_constraintStart_toStartOf="parent" />
 
-</FrameLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4x4"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewFour"
+        app:layout_constraintStart_toStartOf="@+id/imageViewFour"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewFour" />
+
+    <ImageView
+        android:id="@+id/imageViewSix"
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/six"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewEight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageViewFour" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="6x6"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewSix"
+        app:layout_constraintStart_toStartOf="@+id/imageViewSix"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewSix" />
+
+    <ImageView
+        android:id="@+id/imageViewEight"
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:src="@drawable/eight"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="8x8"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewEight"
+        app:layout_constraintStart_toStartOf="@+id/imageViewEight"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewEight" />
+
+    <ImageButton
+        android:id="@+id/playButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/cell_32"
+        android:src="@drawable/baseline_play_arrow_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
