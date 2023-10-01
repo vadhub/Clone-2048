@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class MainGame {
-    private final int rows = 4;
+    private int rows;
     public static final int SPAWN_ANIMATION = -1;
     public static final int MOVE_ANIMATION = 0;
     public static final int MERGE_ANIMATION = 1;
@@ -43,10 +43,11 @@ public class MainGame {
     public long lastScore = 0;
     private long bufferScore = 0;
 
-    public MainGame(Context context, MainView view) {
+    public MainGame(Context context, MainView view, int rows) {
         mContext = context;
         mView = view;
         endingMaxValue = (int) Math.pow(2, view.numCellTypes - 1);
+        this.rows = rows;
     }
 
     public void newGame() {

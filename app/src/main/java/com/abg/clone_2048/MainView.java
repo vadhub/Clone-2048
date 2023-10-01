@@ -13,8 +13,9 @@ import android.view.View;
 
 import java.util.ArrayList;
 
+@SuppressLint("ViewConstructor")
 public class MainView extends View {
-    private final int ROWS = 4;
+    private final int rows;
     //Internal Constants
     static final int BASE_ANIMATION_TIME = 100000000;
     private static final String TAG = MainView.class.getSimpleName();
@@ -70,12 +71,14 @@ public class MainView extends View {
 
     public Context mContext;
 
-    public MainView(Context context) {
+    public MainView(Context context, int rows) {
         super(context);
         mContext = context;
 
+        this.rows = rows;
+
         //Loading resources
-        game = new MainGame(context, this);
+        game = new MainGame(context, this, rows);
         try {
             //Getting assets
             backgroundRectangle = getDrawable(R.drawable.background_rectangle);
@@ -245,8 +248,8 @@ public class MainView extends View {
 
         Drawable backgroundCell = getDrawable(R.drawable.cell_rectangle);
         // Outputting the game grid
-        for (int xx = 0; xx < ROWS; xx++)
-            for (int yy = 0; yy < ROWS; yy++) {
+        for (int xx = 0; xx < rows; xx++)
+            for (int yy = 0; yy < rows; yy++) {
                 int sX = startingX + gridWidth + (cellSize + gridWidth) * xx;
                 int eX = sX + cellSize;
                 int sY = startingY + gridWidth + (cellSize + gridWidth) * yy;
@@ -261,8 +264,8 @@ public class MainView extends View {
         paint.setTextSize(textSize);
         paint.setTextAlign(Paint.Align.CENTER);
         // Outputting the individual cells
-        for (int xx = 0; xx < ROWS; xx++) {
-            for (int yy = 0; yy < ROWS; yy++) {
+        for (int xx = 0; xx < rows; xx++) {
+            for (int yy = 0; yy < rows; yy++) {
                 int sX = startingX + gridWidth + (cellSize + gridWidth) * xx;
                 int eX = sX + cellSize;
                 int sY = startingY + gridWidth + (cellSize + gridWidth) * yy;
@@ -362,7 +365,7 @@ public class MainView extends View {
         drawUndoButton(canvas, true);
     }
 
-    private void createEndGameStates(Canvas canvas, boolean win, boolean showButton) {
+    private void createEndGameStates(Canvas canvas, boolean win) {
         int width = endingX - startingX;
         int length = endingY - startingY;
         int middleX = width / 2;
@@ -444,15 +447,15 @@ public class MainView extends View {
         //Initialize overlays
         Bitmap bitmap = Bitmap.createBitmap(endingX - startingX, endingY - startingY, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        createEndGameStates(canvas, true, true);
+        createEndGameStates(canvas, true);
         winGameContinueOverlay = new BitmapDrawable(resources, bitmap);
         bitmap = Bitmap.createBitmap(endingX - startingX, endingY - startingY, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bitmap);
-        createEndGameStates(canvas, true, false);
+        createEndGameStates(canvas, true);
         winGameFinalOverlay = new BitmapDrawable(resources, bitmap);
         bitmap = Bitmap.createBitmap(endingX - startingX, endingY - startingY, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bitmap);
-        createEndGameStates(canvas, false, false);
+        createEndGameStates(canvas, false);
         loseGameOverlay = new BitmapDrawable(resources, bitmap);
     }
 
@@ -468,16 +471,16 @@ public class MainView extends View {
 
     private void getLayout(int width, int height) {
 
-        cellSize = Math.min(width / (ROWS + 1), height / (ROWS + 3));
-        gridWidth = cellSize / (ROWS + 3);  // (ROWS + 3) was 7
+        cellSize = Math.min(width / (rows + 1), height / (rows + 3));
+        gridWidth = cellSize / (rows + 3);  // (ROWS + 3) was 7
         int screenMiddleX = width / 2;
         int screenMiddleY = height / 2;
         int boardMiddleY = screenMiddleY + cellSize / 2;
         iconSize = cellSize / 2;
 
         //Grid Dimensions
-        double halfNumSquaresX = ROWS / 2d;
-        double halfNumSquaresY = ROWS / 2d;
+        double halfNumSquaresX = rows / 2d;
+        double halfNumSquaresY = rows / 2d;
         startingX = (int) (screenMiddleX - (cellSize + gridWidth) * halfNumSquaresX - gridWidth / 2);
         endingX = (int) (screenMiddleX + (cellSize + gridWidth) * halfNumSquaresX + gridWidth / 2);
         startingY = (int) (boardMiddleY - (cellSize + gridWidth) * halfNumSquaresY - gridWidth / 2);
@@ -526,5 +529,9 @@ public class MainView extends View {
 
     private int centerText() {
         return (int) ((paint.descent() + paint.ascent()) / 2);
+    }
+
+    public int getRows() {
+        return rows;
     }
 }
