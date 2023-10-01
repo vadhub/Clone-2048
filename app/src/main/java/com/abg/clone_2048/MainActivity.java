@@ -16,7 +16,7 @@ import com.yandex.mobile.ads.banner.BannerAdSize;
 import com.yandex.mobile.ads.banner.BannerAdView;
 import com.yandex.mobile.ads.common.AdRequest;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Navigator {
 
     private BannerAdView mBanner;
     private MainView view;
@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        view = new MainView(this);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         mBanner = (BannerAdView) findViewById(R.id.adView);
@@ -38,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().build();
         mBanner.loadAd(adRequest);
 
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new GameFragment(), "gameFragment").commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new MenuFragment(), "menuFragment").commit();
     }
 
     private BannerAdSize getAdSize() {
@@ -84,5 +83,20 @@ public class MainActivity extends AppCompatActivity {
 
     public MainView getMainView() {
         return view;
+    }
+
+    @Override
+    public void startFragment(Fragment fragment, int rows) {
+        if (fragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .addToBackStack(null)
+                    .add(R.id.fragment_container, fragment)
+                    .commit();
+
+            if (fragment instanceof GameFragment) {
+                view = new MainView(this, rows);
+            }
+        }
     }
 }
