@@ -26,7 +26,7 @@ public class GameFragment extends Fragment {
     private static final String GAME_STATE = "game state";
     private static final String UNDO_GAME_STATE = "undo game state";
     private MainView mView;
-
+    private int rows = 4;
     private Context context;
 
     @Override
@@ -47,6 +47,7 @@ public class GameFragment extends Fragment {
 
         FrameLayout frameLayout = view.findViewById(R.id.game_frame_layout);
         mView = ((MainActivity) requireActivity()).getMainView();
+        rows = mView.getRows();
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         mView.hasSaveState = settings.getBoolean("save_state", false);
@@ -81,7 +82,6 @@ public class GameFragment extends Fragment {
     }
 
     private void save() {
-        final int rows = 4;
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();
@@ -115,7 +115,6 @@ public class GameFragment extends Fragment {
     }
 
     private void load() {
-        final int rows = 5;
 
         //Stopping all animations
         mView.game.aGrid.cancelAnimations();
@@ -145,5 +144,4 @@ public class GameFragment extends Fragment {
         mView.game.gameState = settings.getInt(GAME_STATE + rows, mView.game.gameState);
         mView.game.lastGameState = settings.getInt(UNDO_GAME_STATE + rows, mView.game.lastGameState);
     }
-
 }
