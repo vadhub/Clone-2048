@@ -38,6 +38,10 @@ public class MenuFragment extends Fragment {
         ImageView sixOnSix = view.findViewById(R.id.imageViewSix);
         ImageView eightOnEight = view.findViewById(R.id.imageViewEight);
 
+        View filter4 = view.findViewById(R.id.filter4x4);
+        View filter6 = view.findViewById(R.id.filter6x6);
+        View filter8 = view.findViewById(R.id.filter8x8);
+
         ImageButton play = view.findViewById(R.id.playButton);
 
         View.OnClickListener clickListener = v -> {
@@ -46,14 +50,23 @@ public class MenuFragment extends Fragment {
 
             if (v.getId() == R.id.imageViewFour) {
                 rows = 4;
+                filter4.setVisibility(View.GONE);
+                filter6.setVisibility(View.VISIBLE);
+                filter8.setVisibility(View.VISIBLE);
             }
 
             if (v.getId() == R.id.imageViewSix) {
                 rows = 6;
+                filter4.setVisibility(View.VISIBLE);
+                filter6.setVisibility(View.GONE);
+                filter8.setVisibility(View.VISIBLE);
             }
 
             if (v.getId() == R.id.imageViewEight) {
                 rows = 8;
+                filter4.setVisibility(View.VISIBLE);
+                filter6.setVisibility(View.VISIBLE);
+                filter8.setVisibility(View.GONE);
             }
 
             if (v.getId() == R.id.playButton) {
