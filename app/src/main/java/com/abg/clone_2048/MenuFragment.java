@@ -37,11 +37,12 @@ public class MenuFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ImageView fourOnFour = view.findViewById(R.id.imageViewFour);
-        //ImageView fiveOnFive = view.findViewById(R.id.imageViewFive);
+        ImageView fiveOnFive = view.findViewById(R.id.imageViewFive);
         ImageView sixOnSix = view.findViewById(R.id.imageViewSix);
         ImageView eightOnEight = view.findViewById(R.id.imageViewEight);
 
         View filter4 = view.findViewById(R.id.filter4x4);
+        View filter5 = view.findViewById(R.id.filter5x5);
         View filter6 = view.findViewById(R.id.filter6x6);
         View filter8 = view.findViewById(R.id.filter8x8);
 
@@ -54,6 +55,15 @@ public class MenuFragment extends Fragment {
             if (v.getId() == R.id.imageViewFour) {
                 rows.set(4);
                 filter4.setVisibility(View.GONE);
+                filter5.setVisibility(View.VISIBLE);
+                filter6.setVisibility(View.VISIBLE);
+                filter8.setVisibility(View.VISIBLE);
+            }
+
+            if (v.getId() == R.id.imageViewFive) {
+                rows.set(5);
+                filter4.setVisibility(View.VISIBLE);
+                filter5.setVisibility(View.GONE);
                 filter6.setVisibility(View.VISIBLE);
                 filter8.setVisibility(View.VISIBLE);
             }
@@ -61,6 +71,7 @@ public class MenuFragment extends Fragment {
             if (v.getId() == R.id.imageViewSix) {
                 rows.set(6);
                 filter4.setVisibility(View.VISIBLE);
+                filter5.setVisibility(View.VISIBLE);
                 filter6.setVisibility(View.GONE);
                 filter8.setVisibility(View.VISIBLE);
             }
@@ -68,6 +79,7 @@ public class MenuFragment extends Fragment {
             if (v.getId() == R.id.imageViewEight) {
                 rows.set(8);
                 filter4.setVisibility(View.VISIBLE);
+                filter5.setVisibility(View.VISIBLE);
                 filter6.setVisibility(View.VISIBLE);
                 filter8.setVisibility(View.GONE);
             }
@@ -81,10 +93,9 @@ public class MenuFragment extends Fragment {
         };
 
         fourOnFour.setOnClickListener(clickListener);
+        fiveOnFive.setOnClickListener(clickListener);
         sixOnSix.setOnClickListener(clickListener);
         eightOnEight.setOnClickListener(clickListener);
-
-
         play.setOnClickListener(clickListener);
     }
 

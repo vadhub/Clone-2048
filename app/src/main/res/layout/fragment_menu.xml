@@ -12,9 +12,9 @@
         android:layout_width="100sp"
         android:layout_height="100sp"
         android:src="@drawable/four"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toTopOf="@+id/imageViewEight"
-        app:layout_constraintEnd_toStartOf="@+id/imageViewSix"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewFive"
         app:layout_constraintStart_toStartOf="parent" />
 
     <View
@@ -36,14 +36,43 @@
         app:layout_constraintTop_toBottomOf="@+id/imageViewFour" />
 
     <ImageView
-        android:id="@+id/imageViewSix"
+        android:id="@+id/imageViewFive"
         android:layout_width="100sp"
         android:layout_height="100sp"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/six"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/five"
         app:layout_constraintBottom_toTopOf="@+id/imageViewEight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageViewFour" />
+
+    <View
+        android:id="@+id/filter5x5"
+        android:background="@color/white_alpha_70"
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewFive"
+        app:layout_constraintStart_toStartOf="@+id/imageViewFive"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewFive"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5x5"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewFive"
+        app:layout_constraintStart_toStartOf="@+id/imageViewFive"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewFive" />
+
+    <ImageView
+        android:id="@+id/imageViewSix"
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:src="@drawable/six"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/imageViewEight"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/filter6x6"
@@ -55,7 +84,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageViewSix"/>
 
     <TextView
-        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="6x6"
@@ -68,9 +96,10 @@
         android:layout_width="100sp"
         android:layout_height="100sp"
         android:src="@drawable/eight"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imageViewSix"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
