@@ -1,5 +1,7 @@
 package com.abg.clone_2048;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
@@ -9,17 +11,31 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.FrameLayout;
 
+import com.yandex.mobile.ads.appopenad.AppOpenAdLoader;
 import com.yandex.mobile.ads.banner.BannerAdSize;
 import com.yandex.mobile.ads.banner.BannerAdView;
+import com.yandex.mobile.ads.common.AdError;
 import com.yandex.mobile.ads.common.AdRequest;
+import com.yandex.mobile.ads.common.AdRequestConfiguration;
+import com.yandex.mobile.ads.common.AdRequestError;
+import com.yandex.mobile.ads.common.ImpressionData;
+import com.yandex.mobile.ads.interstitial.InterstitialAd;
+import com.yandex.mobile.ads.interstitial.InterstitialAdEventListener;
+import com.yandex.mobile.ads.interstitial.InterstitialAdLoadListener;
+import com.yandex.mobile.ads.interstitial.InterstitialAdLoader;
 
 public class MainActivity extends AppCompatActivity implements Navigator {
 
-    private BannerAdView mBanner;
     private MainView view;
+
+    @Nullable
+    private InterstitialAd mInterstitialAd = null;
+    @Nullable
+    private InterstitialAdLoader mInterstitialAdLoader = null;
 
     @Override
     @SuppressLint("MissingInflatedId")
@@ -30,27 +46,32 @@ public class MainActivity extends AppCompatActivity implements Navigator {
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
-        mBanner = (BannerAdView) findViewById(R.id.adView);
-        // demo-banner-yandex
-        mBanner.setAdUnitId("R-M-2873095-1");
-        mBanner.setAdSize(getAdSize());
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mBanner.loadAd(adRequest);
+        mInterstitialAdLoader = new InterstitialAdLoader(this);
+        mInterstitialAdLoader.setAdLoadListener(new InterstitialAdLoadListener() {
+            @Override
+            public void onAdLoaded(@NonNull final InterstitialAd interstitialAd) {
+                mInterstitialAd = interstitialAd;
+                // The ad was loaded successfully. Now you can show loaded ad.
+            }
+
+            @Override
+            public void onAdFailedToLoad(@NonNull final AdRequestError adRequestError) {
+                // Ad failed to load with AdRequestError.
+                // Attempting to load a new ad from the onAdFailedToLoad() method is strongly discouraged.
+            }
+        });
+        loadInterstitialAd();
 
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new MenuFragment(), "menuFragment").commit();
     }
 
-    private BannerAdSize getAdSize() {
-        final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        // Calculate the width of the ad, taking into account the padding in the ad container.
-        int adWidthPixels = mBanner.getWidth();
-        if (adWidthPixels == 0) {
-            // If the ad hasn't been laid out, default to the full screen width
-            adWidthPixels = displayMetrics.widthPixels;
+    private void loadInterstitialAd() {
+        //demo-interstitial-yandex
+        if (mInterstitialAdLoader != null ) {
+            final AdRequestConfiguration adRequestConfiguration =
+                    new AdRequestConfiguration.Builder("R-M-2873095-4").build();
+            mInterstitialAdLoader.loadAd(adRequestConfiguration);
         }
-        final int adWidth = Math.round(adWidthPixels / displayMetrics.density);
-
-        return BannerAdSize.stickySize(this, adWidth);
     }
 
     @Override
@@ -95,8 +116,66 @@ public class MainActivity extends AppCompatActivity implements Navigator {
                     .commit();
 
             if (fragment instanceof GameFragment) {
+                showAd();
                 view = new MainView(this, rows);
             }
         }
     }
+
+    private void showAd() {
+        if (mInterstitialAd != null) {
+            mInterstitialAd.setAdEventListener(new InterstitialAdEventListener() {
+                @Override
+                public void onAdShown() {
+                    // Called when ad is shown.
+                }
+
+                @Override
+                public void onAdFailedToShow(@NonNull final AdError adError) {
+                    Log.e("err", adError.getDescription());
+                }
+
+                @Override
+                public void onAdDismissed() {
+                    // Called when ad is dismissed.
+                    // Clean resources after Ad dismissed
+                    if (mInterstitialAd != null) {
+                        mInterstitialAd.setAdEventListener(null);
+                        mInterstitialAd = null;
+                    }
+
+                    // Now you can preload the next interstitial ad.
+                    loadInterstitialAd();
+                }
+
+                @Override
+                public void onAdClicked() {
+                    // Called when a click is recorded for an ad.
+                }
+
+                @Override
+                public void onAdImpression(@Nullable final ImpressionData impressionData) {
+                    // Called when an impression is recorded for an ad.
+                }
+            });
+            mInterstitialAd.show(this);
+        }
+    }
+
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        if (mInterstitialAdLoader != null) {
+//            mInterstitialAdLoader.setAdLoadListener(null);
+//            mInterstitialAdLoader = null;
+//        }
+//        destroyInterstitialAd();
+//    }
+//
+//    private void destroyInterstitialAd() {
+//        if (mInterstitialAd != null) {
+//            mInterstitialAd.setAdEventListener(null);
+//            mInterstitialAd = null;
+//        }
+//    }
 }
