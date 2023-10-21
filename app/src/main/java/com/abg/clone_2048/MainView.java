@@ -36,6 +36,7 @@ public class MainView extends View {
     public int sYIcons;
     public int sXNewGame;
     public int sXUndo;
+    public int sXMenu;
     public int iconSize;
     //Misc
     boolean refreshLastTime = true;
@@ -230,6 +231,23 @@ public class MainView extends View {
                 sYIcons + iconSize - iconPaddingSize);
     }
 
+    private void drawMenuButton(Canvas canvas, boolean lightUp) {
+        if (lightUp)
+            drawDrawable(canvas, lightUpRectangle, sXMenu, sYIcons,
+                    sXMenu + iconSize,
+                    sYIcons + iconSize);
+        else
+            drawDrawable(canvas, backgroundRectangle, sXMenu, sYIcons,
+                    sXMenu + iconSize,
+                    sYIcons + iconSize);
+
+//        drawDrawable(canvas, getDrawable(R.drawable.baseline_home_24),
+//                sXMenu + iconPaddingSize,
+//                sYIcons + iconPaddingSize,
+//                sXMenu + iconSize - iconPaddingSize,
+//                sYIcons + iconSize - iconPaddingSize);
+    }
+
     private void drawHeader(Canvas canvas) {
         paint.setTextSize(headerTextSize);
         paint.setColor(getResources().getColor(R.color.text_black));
@@ -363,6 +381,7 @@ public class MainView extends View {
     private void drawGameOverButtons(Canvas canvas) {
         drawNewGameButton(canvas, true);
         drawUndoButton(canvas, true);
+        drawMenuButton(canvas, true);
     }
 
     private void createEndGameStates(Canvas canvas, boolean win) {
@@ -400,6 +419,7 @@ public class MainView extends View {
         drawHeader(canvas);
         drawNewGameButton(canvas, false);
         drawUndoButton(canvas, false);
+//        drawMenuButton(canvas, false);
 
         drawBackground(canvas);
         drawBackgroundGrid(canvas);
