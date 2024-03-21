@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">2048</string>
+    <string name="high_score">PONTUAÇÃO MÁXIMA</string>
+    <string name="score">PONTUAÇÃO</string>
+    <string name="you_win">Você ganha!</string>
+    <string name="game_over">Game Over!</string>
+    <string name="reset">Sim</string>
+    <string name="continue_game">Não</string>
+    <string name="reset_dialog_message">Comece de novo?</string>
+</resources>

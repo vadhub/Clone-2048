@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">2048</string>
+    <string name="high_score">उच्च स्कोर</string>
+    <string name="score">अंक</string>
+    <string name="you_win">आप जीतते हैं!</string>
+    <string name="game_over">खेल खत्म!</string>
+    <string name="reset">हाँ</string>
+    <string name="continue_game">नहीं</string>
+    <string name="reset_dialog_message">फिर से शुरू करें?</string>
+</resources>
